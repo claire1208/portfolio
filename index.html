@@ -4,8 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>John Designer - Product Designer Portfolio</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
     <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.5;
+            background-color: #f9fafb;
+            color: #111827;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header styles */
+        .header {
+            background-color: white;
+            padding: 64px 0;
+        }
+
+        .header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            color: #4b5563;
+            margin-bottom: 24px;
+        }
+
+        /* Link styles */
+        .view-work {
+            color: #2563eb;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .view-work:hover {
+            color: #1d4ed8;
+        }
+
+        /* Grid layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            padding: 64px 0;
+        }
+
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Card styles */
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 192px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: #4b5563;
+            margin-bottom: 16px;
+        }
+
+        /* Tag styles */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: #f3f4f6;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+
+        /* Modal styles */
         .modal {
             display: none;
             position: fixed;
@@ -13,136 +129,210 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background: rgba(0,0,0,0.5);
+            padding: 16px;
+            overflow-y: auto;
         }
+
         .modal.active {
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .case-study-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            max-width: 672px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
         }
-        .case-study-card {
-            transition: all 0.3s ease;
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 16px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #6b7280;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: #111827;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 256px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .modal-grid-item p:first-child {
+            color: #6b7280;
+        }
+
+        .modal-grid-item p:last-child {
+            font-weight: 500;
+        }
+
+        .button {
+            background: #2563eb;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
+        /* Section title */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 32px;
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Hero Section -->
-    <header class="bg-white py-16">
-        <div class="max-w-4xl mx-auto px-4">
-            <h1 class="text-4xl font-bold mb-4">John Designer</h1>
-            <p class="text-xl text-gray-600 mb-6">
-                Product Designer crafting intuitive digital experiences
-            </p>
-            <div class="flex gap-4">
-                <a href="#work" class="flex items-center text-blue-600 hover:text-blue-700">
-                    View Work
-                    <svg class="ml-1 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 18l6-6-6-6"/>
-                    </svg>
-                </a>
-            </div>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1>John Designer</h1>
+            <p>Product Designer crafting intuitive digital experiences</p>
+            <a href="#work" class="view-work">
+                View Work
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </a>
         </div>
     </header>
 
-    <!-- Case Studies Grid -->
-    <section id="work" class="max-w-4xl mx-auto px-4 py-16">
-        <h2 class="text-2xl font-bold mb-8">Selected Work</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Case Studies -->
+    <section id="work" class="container">
+        <h2 class="section-title">Selected Work</h2>
+        <div class="grid">
             <!-- Case Study 1 -->
-            <div class="case-study-card bg-white rounded-lg shadow-md overflow-hidden" onclick="showModal('case1')">
-                <img src="/api/placeholder/600/400" alt="Healthcare App Redesign" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2">Healthcare App Redesign</h3>
-                    <p class="text-gray-600 mb-4">Improving patient engagement through intuitive interface design</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">Healthcare</span>
-                        <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">Mobile App</span>
-                        <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">UX Research</span>
+            <div class="card" onclick="showModal('case1')">
+                <img src="/api/placeholder/600/400" alt="Healthcare App Redesign" class="card-image">
+                <div class="card-content">
+                    <h3>Healthcare App Redesign</h3>
+                    <p>Improving patient engagement through intuitive interface design</p>
+                    <div class="tags">
+                        <span class="tag">Healthcare</span>
+                        <span class="tag">Mobile App</span>
+                        <span class="tag">UX Research</span>
                     </div>
                 </div>
             </div>
 
             <!-- Case Study 2 -->
-            <div class="case-study-card bg-white rounded-lg shadow-md overflow-hidden" onclick="showModal('case2')">
-                <img src="/api/placeholder/600/400" alt="E-commerce Platform Enhancement" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2">E-commerce Platform Enhancement</h3>
-                    <p class="text-gray-600 mb-4">Streamlining checkout process for better conversion</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">E-commerce</span>
-                        <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">Web Design</span>
-                        <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">User Testing</span>
+            <div class="card" onclick="showModal('case2')">
+                <img src="/api/placeholder/600/400" alt="E-commerce Platform Enhancement" class="card-image">
+                <div class="card-content">
+                    <h3>E-commerce Platform Enhancement</h3>
+                    <p>Streamlining checkout process for better conversion</p>
+                    <div class="tags">
+                        <span class="tag">E-commerce</span>
+                        <span class="tag">Web Design</span>
+                        <span class="tag">User Testing</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Modal Templates -->
+    <!-- Modals -->
     <div id="case1" class="modal">
-        <div class="bg-white rounded-lg max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div class="p-6">
-                <div class="flex justify-between items-start mb-4">
-                    <h2 class="text-2xl font-bold">Healthcare App Redesign</h2>
-                    <button onclick="hideModal('case1')" class="text-gray-500 hover:text-gray-700">✕</button>
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="modal-header">
+                    <h2 class="section-title">Healthcare App Redesign</h2>
+                    <button class="modal-close" onclick="hideModal('case1')">×</button>
                 </div>
-                <img src="/api/placeholder/600/400" alt="Healthcare App Redesign" class="w-full h-64 object-cover rounded-lg mb-6">
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div>
-                        <p class="text-gray-600">Duration</p>
-                        <p class="font-medium">3 months</p>
+                <img src="/api/placeholder/600/400" alt="Healthcare App Redesign" class="modal-image">
+                <div class="modal-grid">
+                    <div class="modal-grid-item">
+                        <p>Duration</p>
+                        <p>3 months</p>
                     </div>
-                    <div>
-                        <p class="text-gray-600">Role</p>
-                        <p class="font-medium">Lead Product Designer</p>
+                    <div class="modal-grid-item">
+                        <p>Role</p>
+                        <p>Lead Product Designer</p>
                     </div>
-                    <div>
-                        <p class="text-gray-600">Impact</p>
-                        <p class="font-medium">47% increase in daily active users</p>
+                    <div class="modal-grid-item">
+                        <p>Impact</p>
+                        <p>47% increase in daily active users</p>
                     </div>
                 </div>
-                <a href="#" class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                <button class="button">
                     View Full Case Study
-                    <svg class="ml-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
-                </a>
+                </button>
             </div>
         </div>
     </div>
 
     <div id="case2" class="modal">
-        <div class="bg-white rounded-lg max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div class="p-6">
-                <div class="flex justify-between items-start mb-4">
-                    <h2 class="text-2xl font-bold">E-commerce Platform Enhancement</h2>
-                    <button onclick="hideModal('case2')" class="text-gray-500 hover:text-gray-700">✕</button>
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="modal-header">
+                    <h2 class="section-title">E-commerce Platform Enhancement</h2>
+                    <button class="modal-close" onclick="hideModal('case2')">×</button>
                 </div>
-                <img src="/api/placeholder/600/400" alt="E-commerce Platform Enhancement" class="w-full h-64 object-cover rounded-lg mb-6">
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div>
-                        <p class="text-gray-600">Duration</p>
-                        <p class="font-medium">4 months</p>
+                <img src="/api/placeholder/600/400" alt="E-commerce Platform Enhancement" class="modal-image">
+                <div class="modal-grid">
+                    <div class="modal-grid-item">
+                        <p>Duration</p>
+                        <p>4 months</p>
                     </div>
-                    <div>
-                        <p class="text-gray-600">Role</p>
-                        <p class="font-medium">UX/UI Designer</p>
+                    <div class="modal-grid-item">
+                        <p>Role</p>
+                        <p>UX/UI Designer</p>
                     </div>
-                    <div>
-                        <p class="text-gray-600">Impact</p>
-                        <p class="font-medium">28% reduction in cart abandonment</p>
+                    <div class="modal-grid-item">
+                        <p>Impact</p>
+                        <p>28% reduction in cart abandonment</p>
                     </div>
                 </div>
-                <a href="#" class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                <button class="button">
                     View Full Case Study
-                    <svg class="ml-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
-                </a>
+                </button>
             </div>
         </div>
     </div>
